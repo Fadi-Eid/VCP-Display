@@ -1,0 +1,17 @@
+{
+  "name": "VCP-Display-Desktop (Ubuntu 22.04)",
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "desktop-dev",
+  "workspaceFolder": "/home/devuser/workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.cmake-tools",
+        "ms-vscode.makefile-tools",
+        "ms-python.python"
+      ]
+    }
+  }
+}

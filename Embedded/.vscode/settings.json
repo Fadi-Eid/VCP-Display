@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+        "main.h": "c",
+        "gpio.h": "c",
+        "stm32h7xx_hal.h": "c",
+        "stm32h7xx_hal_uart.h": "c",
+        "stm32h7xx_hal_def.h": "c",
+        "stm32h7xx.h": "c",
+        "stm32h7xx_hal_pwr_ex.h": "c",
+        "stm32h755xx.h": "c",
+        "core_cm7.h": "c",
+        "system_stm32h7xx.h": "c",
+        "stm32h7xx_hal_gpio.h": "c"
+    },
+    "cortex-debug.gdbPath": "/usr/bin/gdb-multiarch",
+    "cortex-debug.variableUseNaturalFormat": false
+}

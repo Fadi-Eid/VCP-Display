@@ -1,0 +1,34 @@
+# This is the Dockerfile used to create the base image
+# Make sure you manually build it: 
+# $ docker build -f .devcontainer/Dockerfile.base -t vcp-diplay-desktop-base:latest .
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install build & flash tools
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      build-essential \
+      cmake \
+      libsdl2-dev \
+      usbutils \
+      sudo \
+      python3 \
+      python3-pip \
+      git \
+      make \
+      minicom \
+      terminator \
+      pkg-config \
+      nano \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create user 'devuser' with passwordless sudo
+RUN useradd -m devuser && usermod -aG plugdev devuser
+RUN echo "devuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Switch to the new user
+USER devuser
+
+# Set working directory
+WORKDIR /home/devuser/workspace

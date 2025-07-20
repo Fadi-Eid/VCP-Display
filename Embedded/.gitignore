@@ -1,0 +1,13 @@
+# Ignore build directories for CM7 and CM4
+/Makefile/CM7/build/
+/Makefile/CM4/build/
+
+# Ignore compiled binaries and intermediate files
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+*.o
+*.d
+*.su

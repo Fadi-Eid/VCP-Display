@@ -1,0 +1,19 @@
+services:
+  desktop-dev:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: desktop-dev-container
+    command: sleep infinity
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw # If you want graphics, enter the following command on the host: xhost +local:docker
+                                         # To remove: xhost -local:docker
+      - ../:/home/devuser/workspace
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
+      - /dev/bus/usb:/dev/bus/usb
+    privileged: true
+    group_add:
+      - plugdev

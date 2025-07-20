@@ -1,0 +1,54 @@
+{
+    "configurations": [
+        {
+            "name": "STM32H755-CM7",
+            "includePath": [
+                "${workspaceFolder}/Drivers/**",
+                "${workspaceFolder}/CM7/**"
+            ],
+            "defines": [ // those are useful to let VSCode know how you are compiling
+                "USE_HAL_DRIVER",
+                "STM32H755xx",
+                "USE_PWR_DIRECT_SMPS_SUPPLY"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "gcc-arm",
+            "compilerPath": "/usr/bin/arm-none-eabi-gcc",
+            "compilerArgs": [
+                "-mthumb",
+                "-mcpu=cortex-m7",
+                "-DCORE_CM7",
+                "-DUSE_HAL_DRIVER",
+                "-DSTM32H755xx",
+                "-DUSE_PWR_DIRECT_SMPS_SUPPLY"
+            ]
+        },
+        {
+            "name": "STM32H755-CM4",
+            "includePath": [
+                "${workspaceFolder}//Drivers/**",
+                "${workspaceFolder}/CM4/**"
+            ],
+            "defines": [
+                "USE_HAL_DRIVER",
+                "STM32H755xx",
+                "USE_PWR_DIRECT_SMPS_SUPPLY"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "gcc-arm",
+            "compilerPath": "/usr/bin/arm-none-eabi-gcc",
+            "compilerArgs": [
+                "-mthumb",
+                "-mcpu=cortex-m4",
+                "-DCORE_CM4",
+                "-DUSE_HAL_DRIVER",
+                "-DSTM32H755xx",
+                "-DUSE_PWR_DIRECT_SMPS_SUPPLY"
+            ]
+        }
+    ],
+    "version": 4
+}
+

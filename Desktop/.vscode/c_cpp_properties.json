@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "name": "EmbedUI",
+            "includePath": [
+                "${workspaceFolder}/Test/include/**",
+                "${workspaceFolder}/Test/src/**"
+            ]
+        }
+    ],
+    
+    "version": 4
+}
+

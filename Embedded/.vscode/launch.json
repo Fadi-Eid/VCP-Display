@@ -1,0 +1,17 @@
+// In a terminal run: $ sudo openocd -f interface/stlink.cfg -f target/stm32h7x.cfg
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Attach to OpenOCD GDB Server",
+            "type": "cortex-debug",
+            "request": "attach",
+            "servertype": "external",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/Makefile/CM7/build/STM32H755-UART-VCP_CM7.elf",
+            "device": "STM32H755ZI",
+            "gdbTarget": "localhost:3333",
+            "showDevDebugOutput": "raw"
+        }
+    ]
+}
