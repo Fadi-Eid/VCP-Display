@@ -11,6 +11,9 @@ int main() {
         return 1;
     }
 
+    // Investigate this: https://github.com/gbmhunter/CppLinuxSerial/tree/master
+    // for serial communication in C++ with custom baud-rate
+
     // Read UART Data
     return 0;
 }

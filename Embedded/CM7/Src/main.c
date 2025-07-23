@@ -31,6 +31,7 @@
 /* USER CODE BEGIN PTD */
 #define DISPLAY_WIDTH 5
 #define DISPLAY_HEIGHT 6
+#define FPS 2
 
 /* USER CODE END PTD */
 
@@ -137,6 +138,7 @@ Error_Handler();
   /* USER CODE BEGIN 2 */
   uint16_t pixels[DISPLAY_WIDTH * DISPLAY_HEIGHT];
   uint16_t frame = 0;
+  uint8_t count = 0;
 
   /* USER CODE END 2 */
 
@@ -156,22 +158,28 @@ Error_Handler();
     send_data(&huart3, y, 2);
 
     // Construct pixel data
+    uint8_t colorArr[] = {0, 0, 0};
+    colorArr[count] = 1;
+
     uint16_t size = (x[1] - x[0] + 1) * (y[1] - y[0] + 1);
 
     for (size_t i = 0; i < size; i++) {
-        // Color shift over time (RGB565 gradient)
-        uint8_t r = (frame + i) & 0x1F;      // 5 bits
-        uint8_t g = ((frame + i) >> 2) & 0x3F; // 6 bits
-        uint8_t b = ((frame + i) >> 1) & 0x1F; // 5 bits
-        pixels[i] = (r << 11) | (g << 5) | b;
+        uint8_t r = colorArr[0] & 0x1F;        // 5 bits
+        uint8_t g = colorArr[1] & 0x3F;        // 6 bits
+        uint8_t b = colorArr[2] & 0x1F;        // 5 bits
+        pixels[i] = (r << 11) | (g << 5) | b; 
     }
 
     send_command(&huart3, 0x2C);
     send_data(&huart3, pixels, size);
 
-    frame++;
+    if(++frame == 1) {
+        frame = 0;
+        if (++count == 3)
+            count = 0;
+    }
 
-    HAL_Delay(100);
+    HAL_Delay(1000/FPS);
 
     /* USER CODE END WHILE */
 
