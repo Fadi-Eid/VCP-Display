@@ -1,40 +1,65 @@
-#include <CppLinuxSerial/SerialPort.hpp>
-#include <vector>
-#include <iomanip>  // for std::hex, std::setw, std::setfill
+#include <stdio.h>
+#include <string.h>
+#include <fcntl.h>			// Contains file controls like O_RDWR
+#include <errno.h>			// Error integer and strerror() function
+#include <unistd.h>			// write(), read(), close()
+#include <sys/ioctl.h>
+#include <asm/termbits.h>
 
-using namespace mn::CppLinuxSerial;
+int main() {
+	/* https://blog.mbedded.ninja/programming/operating-systems/linux/linux-serial-ports-using-c-cpp/ */
+	// open serial port
+    int serial_port = open("/dev/ttyACM0", O_RDWR);
 
-int main()
-{
-	// Create serial port object and open serial port at 7400000 baud
-	SerialPort serialPort("/dev/ttyACM0", 7400000);
-	serialPort.SetNumDataBits(NumDataBits::EIGHT);
-	serialPort.SetNumStopBits(NumStopBits::ONE);
-	serialPort.SetParity(Parity::NONE);
-	serialPort.SetTimeout(1000); // Block for up to 1000ms to receive data
-	serialPort.Open();
+	// check for errors
+    if (serial_port < 0) {
+        fprintf(stderr, "Error %i from open: %s\n", errno, strerror(errno));
+        return 1;
+    }
 
-	// Buffer array to store received data
-	std::vector<uint8_t> buffer;
+    struct termios2 tty;
 
-	while(true)
-	{
-		// read a byte
-		for(int i = 0; i<200; i++) {
-			serialPort.ReadBinary(buffer);
-		}
+    if (ioctl(serial_port, TCGETS2, &tty) != 0) {
+        fprintf(stderr, "Error %i from TCGETS2: %s\n", errno, strerror(errno));
+        return 1;
+    }
 
-		for(auto byte : buffer) {
-			std::cout << std::hex << std::uppercase            // Hex format, uppercase letters
-								<< std::setw(2) << std::setfill('0')      // Width 2, pad with '0'
-								<< static_cast<int>(byte) << " ";         // Print byte value
-		}
-		std::cout << std::endl;
-		buffer.clear();
+	// Configure custom baud rate
+    tty.c_cflag &= ~CBAUD;          // clear baud bits
+    tty.c_cflag |= CBAUDEX;
+    tty.c_ispeed = 7400000;
+    tty.c_ospeed = 7400000;
 
-		
-	}
+    // Configure ontrol flags
+    tty.c_cflag &= ~PARENB;			// Clear parity bit
+    tty.c_cflag &= ~CSTOPB;			// Clear stop field, only one stop bit used
+    tty.c_cflag |= CS8;				// 8 bits per byte
+    tty.c_cflag &= ~CRTSCTS;		// Disable RTS/CTS hardware flow control
+    tty.c_cflag |= CREAD | CLOCAL;	// Turn on READ & ignore ctrl lines (CLOCAL = 1)
 
-	// Close the serial port
-	serialPort.Close();
+    tty.c_lflag &= ~(ICANON | ECHO | ECHOE | ECHONL);
+    tty.c_iflag &= ~(IXON | IXOFF | IXANY);
+    tty.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL);
+    tty.c_oflag &= ~OPOST;
+    tty.c_oflag &= ~ONLCR;
+
+    tty.c_cc[VTIME] = 0;	// Wait 0.1s max (1 decisecond)
+    tty.c_cc[VMIN] = 1;		// returning when 2 bytes get received
+
+    if (ioctl(serial_port, TCSETS2, &tty) != 0) {
+        fprintf(stderr, "Error %i from TCSETS2: %s\n", errno, strerror(errno));
+        return 1;
+    }
+
+	// Start reading loop
+    int count = 0;
+    unsigned char buffer[1];
+
+    while (1) {
+        read(serial_port, buffer, sizeof(buffer));
+        printf("(%d) Rsseceived %02x\n", count++, buffer[0]);
+    }
+   
+    close(serial_port);
+    return 0;
 }

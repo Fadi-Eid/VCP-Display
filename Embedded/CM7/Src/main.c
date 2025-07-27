@@ -31,7 +31,7 @@
 /* USER CODE BEGIN PTD */
 #define DISPLAY_WIDTH 5
 #define DISPLAY_HEIGHT 6
-#define FPS 2
+#define FPS 10
 
 /* USER CODE END PTD */
 
@@ -179,7 +179,7 @@ Error_Handler();
             count = 0;
     }
 
-    //HAL_Delay(1000/FPS);
+    HAL_Delay(1000/FPS);
 
     /* USER CODE END WHILE */
 

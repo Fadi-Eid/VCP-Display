@@ -177,12 +177,15 @@ int uart_dma_transmit(UART_HandleTypeDef* huart, const uint8_t *pData, uint16_t 
   return 0;
 }
 
-int send_command(UART_HandleTypeDef* huart, uint8_t cmd) {
-  __attribute__((section(".dma_buffer"))) static uint8_t pData[1];
+int send_command(UART_HandleTypeDef* huart, uint16_t cmd) {
+  __attribute__((section(".dma_buffer"))) static uint8_t low_byte[1];
+  __attribute__((section(".dma_buffer"))) static uint8_t high_byte[1];
 
   if ( (cmd == 0x2A) || (cmd == 0x2B) || (cmd == 0x2C) ) {
-    pData[0] = cmd;
-    uart_dma_transmit(huart, pData, 1);
+    low_byte[0] = cmd & 0xFF;
+    high_byte[0] = 0x00;
+    uart_dma_transmit(huart, high_byte, 1);
+    uart_dma_transmit(huart, low_byte, 1);
     return 0;
   }
   return -1; // invalid command

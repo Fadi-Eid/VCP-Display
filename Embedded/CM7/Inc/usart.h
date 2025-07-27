@@ -46,7 +46,7 @@ void MX_USART3_UART_Init(void);
 int uart_dma_transmit(UART_HandleTypeDef* huart, const uint8_t *pData, uint16_t Size);
 
 /* Send the command */
-int send_command(UART_HandleTypeDef* huart, uint8_t cmd);
+int send_command(UART_HandleTypeDef* huart, uint16_t cmd);
 
 /* Send the appropriate data according to the command */
 int send_data(UART_HandleTypeDef* huart, const uint16_t* data, uint16_t size);
