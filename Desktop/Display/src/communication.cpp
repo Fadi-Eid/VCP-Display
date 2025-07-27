@@ -52,6 +52,15 @@ uint8_t Communication::Parser::readByte() {
     return byte[0];
 }
 
+std::string Communication::Parser::byteToHex(uint16_t byte) {
+    std::ostringstream oss;
+    oss << "0x" << std::hex << std::uppercase
+        << std::setw(4) << std::setfill('0')
+        << byte;
+    return oss.str();
+}
+
+
 std::string Communication::Parser::byteToHex(uint8_t byte) {
     std::ostringstream oss;
     oss << "0x" << std::hex << std::uppercase

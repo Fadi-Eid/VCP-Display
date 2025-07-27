@@ -159,7 +159,7 @@ Error_Handler();
 
     // Construct pixel data
     uint8_t colorArr[] = {0, 0, 0};
-    colorArr[count] = 1;
+    colorArr[count] = 0xFF;
 
     uint16_t size = (x[1] - x[0] + 1) * (y[1] - y[0] + 1);
 
@@ -167,7 +167,8 @@ Error_Handler();
         uint8_t r = colorArr[0] & 0x1F;        // 5 bits
         uint8_t g = colorArr[1] & 0x3F;        // 6 bits
         uint8_t b = colorArr[2] & 0x1F;        // 5 bits
-        pixels[i] = (r << 11) | (g << 5) | b; 
+        volatile uint16_t tmp = (r << 11) | (g << 5) | b;
+        pixels[i] =  tmp;
     }
 
     send_command(&huart3, 0x2C);

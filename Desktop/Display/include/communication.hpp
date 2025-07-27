@@ -21,6 +21,7 @@ public:
     uint8_t readByte();
 
     static std::string byteToHex(uint8_t byte);
+    static std::string byteToHex(uint16_t byte);
 
 private:
     int m_serialPort{0};
