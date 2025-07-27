@@ -1,10 +1,10 @@
 {
     "configurations": [
         {
-            "name": "EmbedUI",
+            "name": "VCP-Display",
             "includePath": [
-                "${workspaceFolder}/Test/include/**",
-                "${workspaceFolder}/Test/src/**"
+                "${workspaceFolder}/Display/include/**",
+                "${workspaceFolder}/Display/src/**"
             ]
         }
     ],

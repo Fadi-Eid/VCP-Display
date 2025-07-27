@@ -5,6 +5,7 @@
 #include <unistd.h>			// write(), read(), close()
 #include <sys/ioctl.h>
 #include <asm/termbits.h>
+#include <cstdint>
 
 int main() {
 	/* https://blog.mbedded.ninja/programming/operating-systems/linux/linux-serial-ports-using-c-cpp/ */
@@ -53,11 +54,11 @@ int main() {
 
 	// Start reading loop
     int count = 0;
-    unsigned char buffer[1];
+    uint8_t byte[1];
 
     while (1) {
-        read(serial_port, buffer, sizeof(buffer));
-        printf("(%d) Rsseceived %02x\n", count++, buffer[0]);
+        read(serial_port, byte, 1);
+        printf("(%d) Resceived %02x\n", count++, byte[0]);
     }
    
     close(serial_port);
