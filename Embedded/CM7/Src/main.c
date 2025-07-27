@@ -179,7 +179,7 @@ Error_Handler();
             count = 0;
     }
 
-    HAL_Delay(1000/FPS);
+    //HAL_Delay(1000/FPS);
 
     /* USER CODE END WHILE */
 
