@@ -1,28 +1,18 @@
 #include "display.hpp"
 #include <iostream>
 
-PixelDisplay::PixelDisplay(int width, int height, int fps=60)
-                   : width(width), height(height), fps(fps), 
-                     pixels(width * height * pixelSize, 0), running(false) {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-            std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
-            throw std::runtime_error("SDL_Init failed");
-    }
+PixelDisplay::PixelDisplay(int width, int height) : width(width), height(height), pixels(width * height * 3, 0), running(true) 
+{
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) throw std::runtime_error("SDL_Init failed");
 
-    window = SDL_CreateWindow("STM32 Display",
-                                SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                width, height, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("VCP Display", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
     if (!window) throw std::runtime_error("SDL_CreateWindow failed");
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) throw std::runtime_error("SDL_CreateRenderer failed");
 
-    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB24,
-                                SDL_TEXTUREACCESS_STREAMING,
-                                width, height);
+    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, width, height);
     if (!texture) throw std::runtime_error("SDL_CreateTexture failed");
-
-    delayTime = std::ceil(1000.0/fps);
 }
 
 PixelDisplay::~PixelDisplay() {
@@ -32,14 +22,10 @@ PixelDisplay::~PixelDisplay() {
     SDL_Quit();
 }
 
-void PixelDisplay::run() {
-    running = true;
-    while (running) {
-        handleEvents();
-        updatePixels();
-        render();
-        SDL_Delay(delayTime);
-    }
+void PixelDisplay::refresh() {
+    handleEvents();
+    updatePixels();
+    render();
 }
 
 /* Testing function (This must be implemented on MCU and the program read via UART/USB)*/
@@ -51,7 +37,7 @@ void PixelDisplay::updatePixels() {
     
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
-            int i = (y * width + x) * pixelSize;
+            int i = (y * width + x) * 3;
             pixels[i + 0] = colorArr[0];    // Red
             pixels[i + 1] = colorArr[1];    // Green
             pixels[i + 2] = colorArr[2];    // Blue
@@ -65,7 +51,7 @@ void PixelDisplay::updatePixels() {
 }
 
 void PixelDisplay::render() {
-    SDL_UpdateTexture(texture, nullptr, pixels.data(), width * pixelSize);
+    SDL_UpdateTexture(texture, nullptr, pixels.data(), width * 3);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, nullptr, nullptr);
     SDL_RenderPresent(renderer);

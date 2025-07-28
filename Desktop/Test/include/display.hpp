@@ -5,9 +5,9 @@
 
 class PixelDisplay {
 public:
-    PixelDisplay(int width, int height, int fps);
+    PixelDisplay(int width, int height);
     ~PixelDisplay();
-    void run();
+    void refresh();
 protected:
     virtual void updatePixels();
     void render();
@@ -19,7 +19,8 @@ private:
 
     std::vector<uint8_t> pixels;
 
+    int width, height, delayTime;
+
+public:
     bool running;
-    int width, height, fps, delayTime;
-    const int pixelSize = 3;
 };

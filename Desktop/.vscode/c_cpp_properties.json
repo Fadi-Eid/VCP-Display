@@ -6,6 +6,13 @@
                 "${workspaceFolder}/Display/include/**",
                 "${workspaceFolder}/Display/src/**"
             ]
+        },
+        {
+            "name": "Test",
+            "includePath": [
+                "${workspaceFolder}/Test/include/**",
+                "${workspaceFolder}/Test/src/**"
+            ]
         }
     ],
     
