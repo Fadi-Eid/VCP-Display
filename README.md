@@ -17,6 +17,12 @@ This system includes:
 
 ---
 
+## Architecture
+
+<img width="5976" height="6688" alt="diagram" src="https://github.com/user-attachments/assets/e99cf3ca-6695-4634-be62-f97e5e3264c3" />
+
+---
+
 ## Key Features
 
 - **Dual-core firmware architecture** (CM4 for control, CM7 for compute).
