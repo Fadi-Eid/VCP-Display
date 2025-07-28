@@ -1,4 +1,5 @@
 <img width="970" height="728" alt="image" src="https://github.com/user-attachments/assets/ced1cfee-1151-4be4-899f-413d5c9c2a51" />
+
 # VCP-Display: Dual-Core STM32 + Desktop Visualization System
 
 A desktop based system for emulating an embedded display, with fully containerized development environments for both firmware and host-side applications. The goal is to provide embedded developers a way to test their embedded graphics (e.g., VHDL code) without committing to a specific display.
@@ -13,33 +14,6 @@ This system includes:
 - **Desktop applications** in C++ for communication and data visualization (embedded display emulation).
 - **Containerized development environments** (via Docker and VSCode DevContainers).
 - **High-throughput data streaming** over USB Virtual COM Port (CDC-UART) for real-time analysis (> 700 KB/s).
-
----
-
-## System Architecture
-
-+------------------------+ +-------------------------+
-| Developer Workstation | | Desktop Apps |
-| - VSCode + Docker | | |
-| - Devcontainers | | + Comm Service (C++) |
-| - Shared Git Repo | | + Display App (C++) |
-| | | + Test Harness (Py/C++) |
-+------------------------+ +-----------+-------------+
-|
-+----------------------| USB CDC-VCP (UART)
-| v
-+-----------+------------+--------------------------+
-| STM32H7 MCU | |
-| - Dual Core (CM4 + CM7) |
-| - Bare Metal C/C++, CMSIS, HAL, DSP/NN |
-| - DMA, GPIO, USART |
-+-------------------+------------------------------+
-|
-+---------------+------------------+
-| Shared Boot / Common Firmware |
-| CM4 App | CM7 App |
-| DMA, syscalls | Algorithms, UART |
-+---------------+------------------+
 
 ---
 
