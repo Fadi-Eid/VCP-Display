@@ -11,7 +11,6 @@
 #include <cstring>
 #include <iomanip> 
 
-namespace Communication {
 class Parser {
 public:
     Parser(std::string device, int baud);
@@ -21,9 +20,9 @@ public:
     uint8_t readByte();
 
     static std::string byteToHex(uint8_t byte);
-    static std::string byteToHex(uint16_t byte);
+    static std::string halfWordToHex(uint16_t halfWord);
+    static std::string fullWordToHex(uint32_t fullWord);
 
 private:
     int m_serialPort{0};
 };
-}

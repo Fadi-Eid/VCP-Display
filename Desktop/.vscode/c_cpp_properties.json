@@ -3,8 +3,8 @@
         {
             "name": "VCP-Display",
             "includePath": [
-                "${workspaceFolder}/Display/include/**",
-                "${workspaceFolder}/Display/src/**"
+                "${workspaceFolder}/VCP_Display/include/**",
+                "${workspaceFolder}/VCP_Display/src/**"
             ]
         },
         {

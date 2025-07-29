@@ -1,3 +1,0 @@
-/home/devuser/workspace/VCP_Display/build/CMakeFiles/vcp_display.dir
-/home/devuser/workspace/VCP_Display/build/CMakeFiles/edit_cache.dir
-/home/devuser/workspace/VCP_Display/build/CMakeFiles/rebuild_cache.dir

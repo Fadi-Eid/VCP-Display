@@ -29,9 +29,9 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-#define DISPLAY_WIDTH 5
-#define DISPLAY_HEIGHT 6
-#define FPS 10
+#define DISPLAY_WIDTH 50
+#define DISPLAY_HEIGHT 50
+#define FPS 1
 
 /* USER CODE END PTD */
 
@@ -146,8 +146,8 @@ Error_Handler();
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    uint16_t x[2] = {0, 4};
-    uint16_t y[2] = {0, 5};
+    uint16_t x[2] = {0, DISPLAY_WIDTH-1};
+    uint16_t y[2] = {0, DISPLAY_HEIGHT-1};
 
     // Column address span
     send_command(&huart3, 0x2A);      

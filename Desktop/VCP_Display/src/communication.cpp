@@ -1,7 +1,7 @@
 #include "communication.hpp"
 
 
-Communication::Parser::Parser(std::string device, int baud) {
+Parser::Parser(std::string device, int baud) {
     // Open
     m_serialPort = open(device.c_str(), O_RDWR);
     if (m_serialPort < 0) {
@@ -41,27 +41,35 @@ Communication::Parser::Parser(std::string device, int baud) {
     }
 }
 
-Communication::Parser::~Parser() {
+Parser::~Parser() {
     if(!m_serialPort)
         close(m_serialPort);
 }
 
-uint8_t Communication::Parser::readByte() {
+uint8_t Parser::readByte() {
     uint8_t byte[1];
     read(m_serialPort, byte, 1);
     return byte[0];
 }
 
-std::string Communication::Parser::byteToHex(uint16_t byte) {
+std::string Parser::fullWordToHex(uint32_t fullword) {
+    std::ostringstream oss;
+    oss << "0x" << std::hex << std::uppercase
+        << std::setw(8) << std::setfill('0')
+        << fullword;
+    return oss.str();
+}
+
+std::string Parser::halfWordToHex(uint16_t halfWord) {
     std::ostringstream oss;
     oss << "0x" << std::hex << std::uppercase
         << std::setw(4) << std::setfill('0')
-        << byte;
+        << halfWord;
     return oss.str();
 }
 
 
-std::string Communication::Parser::byteToHex(uint8_t byte) {
+std::string Parser::byteToHex(uint8_t byte) {
     std::ostringstream oss;
     oss << "0x" << std::hex << std::uppercase
         << std::setw(2) << std::setfill('0')
