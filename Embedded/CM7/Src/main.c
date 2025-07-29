@@ -29,9 +29,9 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-#define DISPLAY_WIDTH 50
-#define DISPLAY_HEIGHT 50
-#define FPS 1
+#define DISPLAY_WIDTH 60
+#define DISPLAY_HEIGHT 60
+#define FPS 10
 
 /* USER CODE END PTD */
 

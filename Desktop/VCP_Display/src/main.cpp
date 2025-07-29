@@ -3,7 +3,7 @@
 #include <iostream>
 
 int main() {
-    const int width{50}, height{50};
+    const int width{60}, height{60};
     std::vector<uint32_t> pixels(width * height, 0xFF000000); // ARGB8888 default: black
 
     PixelDisplay display(width, height);

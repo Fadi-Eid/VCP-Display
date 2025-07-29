@@ -39,6 +39,13 @@ Parser::Parser(std::string device, int baud) {
     if (ioctl(m_serialPort, TCSETS2, &tty) != 0) {
         throw std::runtime_error("Error from TCSETS2");
     }
+
+    // flush
+    // Flush input and output buffers manually
+    if (ioctl(m_serialPort, TCFLSH, 2) < 0) {
+        throw std::runtime_error("Failed to flush USB buffer using ioctl TCFLSH");
+    }
+    
 }
 
 Parser::~Parser() {
