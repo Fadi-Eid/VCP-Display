@@ -1,15 +1,17 @@
 #pragma once
 
-#include <vector>
 #include <SDL2/SDL.h>
+#include <vector>
+#include <cstdint>
 
 class PixelDisplay {
 public:
-    PixelDisplay(int width, int height, int fps);
+    PixelDisplay(int width, int height);
     ~PixelDisplay();
-    void run();
+    void refresh();
+    static void delay(uint32_t ms);
+    void updatePixels(const std::vector<uint32_t>& pixels);
 protected:
-    virtual void updatePixels();
     void render();
     void handleEvents();
 private:
@@ -17,9 +19,9 @@ private:
     SDL_Renderer* renderer = nullptr;
     SDL_Texture* texture = nullptr;
 
-    std::vector<uint8_t> pixels;
+    std::vector<uint32_t> pixels;
+    int width, height;
 
+public:
     bool running;
-    int width, height, fps, delayTime;
-    const int pixelSize = 3;
 };

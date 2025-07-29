@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/vcp_display.dir/src/main.cpp.o CMakeFiles/vcp_display.dir/src/display.cpp.o CMakeFiles/vcp_display.dir/src/communication.cpp.o -o vcp_display  -L/usr/lib/x86_64-linux-gnu  -lSDL2 

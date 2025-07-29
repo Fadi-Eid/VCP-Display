@@ -8,10 +8,10 @@
             ]
         },
         {
-            "name": "Test",
+            "name": "Display",
             "includePath": [
-                "${workspaceFolder}/Test/include/**",
-                "${workspaceFolder}/Test/src/**"
+                "${workspaceFolder}/Display/include/**",
+                "${workspaceFolder}/Display/src/**"
             ]
         }
     ],
