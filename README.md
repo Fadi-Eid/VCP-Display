@@ -2,7 +2,7 @@
 
 # VCP-Display: Dual-Core STM32 + Desktop Visualization System
 
-A desktop based system for emulating an embedded display, with fully containerized development environments for both firmware and host-side applications. The goal is to provide embedded developers a way to test their embedded graphics (e.g., VHDL code) without committing to a specific display.
+A desktop based system for emulating an embedded display, with fully containerized development environments for both firmware and host-side applications. The goal is to provide embedded developers a way to test their embedded graphics (e.g., LVGL code) without committing to a specific display.
 
 ---
 
@@ -50,8 +50,9 @@ This system includes:
 <details>
 <summary><strong>📁 Desktop</strong></summary>
 
-- `Comm/` – C++ service to read, decode, and forward serial data
-- `Display/` – C++ GUI application to visualize streamed data
+- `Comm/`: C++ service to read, decode, and forward serial data
+- `Display/`: C++ API to visualize streamed data
+- `VCP_Display`: C++ GUI that makes use of the communication and the display AIs to parse data and show it to an emulated display
 
 </details>
 
