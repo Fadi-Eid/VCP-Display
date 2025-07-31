@@ -5,7 +5,7 @@
 #include <stdexcept>
 
 PixelDisplay::PixelDisplay(int width, int height) : width(width), height(height),
-                                                    pixels(width * height, 0xFF000000),
+                                                    pixels(width * height, 0xFF00),
                                                     running(true) 
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) 
@@ -17,7 +17,7 @@ PixelDisplay::PixelDisplay(int width, int height) : width(width), height(height)
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) throw std::runtime_error(std::string("SDL_CreateRenderer failed") + SDL_GetError());
 
-    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, width, height);
+    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB565, SDL_TEXTUREACCESS_STREAMING, width, height);
     if (!texture) throw std::runtime_error(std::string("SDL_CreateTexture failed") + SDL_GetError());
 }
 
@@ -34,7 +34,7 @@ void PixelDisplay::refresh() {
 }
 
 /* This should populate the pixels vector based on the received UART data */
-void PixelDisplay::updatePixels(const std::vector<uint32_t>& newPixels) {
+void PixelDisplay::updatePixels(const std::vector<uint16_t>& newPixels) {
     if (pixels.size() != newPixels.size()) {
         throw std::invalid_argument(
             "[PixelDisplay] updatePixels(): Buffer size mismatch. Expected " +
@@ -48,7 +48,7 @@ void PixelDisplay::updatePixels(const std::vector<uint32_t>& newPixels) {
 
 void PixelDisplay::render() {
     SDL_Rect *rect = nullptr; // Use this later to update specific part of the screen
-    SDL_UpdateTexture(texture, rect, pixels.data(), width * sizeof(uint32_t));
+    SDL_UpdateTexture(texture, rect, pixels.data(), width * sizeof(uint16_t));
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, nullptr, nullptr);
     SDL_RenderPresent(renderer);

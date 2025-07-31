@@ -29,9 +29,9 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-#define DISPLAY_WIDTH 60
-#define DISPLAY_HEIGHT 60
-#define FPS 10
+#define DISPLAY_WIDTH 50
+#define DISPLAY_HEIGHT 50
+#define FPS 20
 
 /* USER CODE END PTD */
 
@@ -136,7 +136,7 @@ Error_Handler();
   MX_DMA_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-  uint16_t pixels[DISPLAY_WIDTH * DISPLAY_HEIGHT];
+  uint16_t pixels[(DISPLAY_WIDTH * DISPLAY_HEIGHT)];
   uint16_t frame = 0;
   uint8_t count = 0;
 
@@ -163,15 +163,16 @@ Error_Handler();
 
     uint16_t size = (x[1] - x[0] + 1) * (y[1] - y[0] + 1);
 
+
     for (size_t i = 0; i < size; i++) {
         uint8_t r = colorArr[0] & 0x1F;        // 5 bits
         uint8_t g = colorArr[1] & 0x3F;        // 6 bits
         uint8_t b = colorArr[2] & 0x1F;        // 5 bits
-        volatile uint16_t tmp = (r << 11) | (g << 5) | b;
-        pixels[i] =  tmp;
+        pixels[i] = (r << 11) | (g << 5) | b;
     }
 
     send_command(&huart3, 0x2C);
+
     send_data(&huart3, pixels, size);
 
     if(++frame == 1) {

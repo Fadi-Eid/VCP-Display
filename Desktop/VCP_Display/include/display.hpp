@@ -10,7 +10,7 @@ public:
     ~PixelDisplay();
     void refresh();
     static void delay(uint32_t ms);
-    void updatePixels(const std::vector<uint32_t>& pixels);
+    void updatePixels(const std::vector<uint16_t>& pixels);
 protected:
     void render();
     void handleEvents();
@@ -19,7 +19,7 @@ private:
     SDL_Renderer* renderer = nullptr;
     SDL_Texture* texture = nullptr;
 
-    std::vector<uint32_t> pixels;
+    std::vector<uint16_t> pixels;
     int width, height;
 
 public:

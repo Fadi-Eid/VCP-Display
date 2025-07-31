@@ -1,4 +1,5 @@
 #include "communication.hpp"
+#include <iostream>
 
 
 Parser::Parser(std::string device, int baud) {
@@ -34,14 +35,13 @@ Parser::Parser(std::string device, int baud) {
     tty.c_oflag &= ~ONLCR;
 
     tty.c_cc[VTIME] = 0;	// Wait indefinetly or
-    tty.c_cc[VMIN] = 1;		// when 1 bytes get received
+    tty.c_cc[VMIN] = 3;		// when 1 bytes get received
 
     if (ioctl(m_serialPort, TCSETS2, &tty) != 0) {
         throw std::runtime_error("Error from TCSETS2");
     }
 
-    // flush
-    // Flush input and output buffers manually
+    // flush input buffer
     if (ioctl(m_serialPort, TCFLSH, 2) < 0) {
         throw std::runtime_error("Failed to flush USB buffer using ioctl TCFLSH");
     }
@@ -57,6 +57,12 @@ uint8_t Parser::readByte() {
     uint8_t byte[1];
     read(m_serialPort, byte, 1);
     return byte[0];
+}
+
+uint16_t Parser::readHalfWord() {
+    uint8_t halfWord[2];
+    read(m_serialPort, halfWord, 2);
+    return (halfWord[0] << 8) | halfWord[1];  // assuming LSB first;
 }
 
 std::string Parser::fullWordToHex(uint32_t fullword) {
@@ -82,4 +88,14 @@ std::string Parser::byteToHex(uint8_t byte) {
         << std::setw(2) << std::setfill('0')
         << static_cast<int>(byte);
     return oss.str();
+}
+
+ssize_t Parser::readBytes(uint8_t* buffer, size_t length) {
+    size_t total = 0;
+    while (total < length) {
+        ssize_t result = read(m_serialPort, buffer + total, length - total);
+        if (result <= 0) break;  // handle error or disconnection
+        total += result;
+    }
+    return total;
 }
