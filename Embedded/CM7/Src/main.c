@@ -29,9 +29,9 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-#define DISPLAY_WIDTH 100
-#define DISPLAY_HEIGHT 100
-#define FPS 20
+#define DISPLAY_WIDTH 150
+#define DISPLAY_HEIGHT 150
+#define FPS 10
 
 /* USER CODE END PTD */
 
@@ -181,7 +181,7 @@ Error_Handler();
             count = 0;
     }
 
-    HAL_Delay(1000/FPS);
+    // HAL_Delay(1000/FPS);
 
     /* USER CODE END WHILE */
 
