@@ -35,15 +35,7 @@ void PixelDisplay::refresh() {
 
 /* This should populate the pixels vector based on the received UART data */
 void PixelDisplay::updatePixels(const std::vector<uint16_t>& newPixels) {
-    if (pixels.size() != newPixels.size()) {
-        throw std::invalid_argument(
-            "[PixelDisplay] updatePixels(): Buffer size mismatch. Expected " +
-            std::to_string(pixels.size()) + ", got " +
-            std::to_string(newPixels.size())
-        );
-    }
-
-    std::copy(newPixels.begin(), newPixels.end(), pixels.begin());
+    this->pixels = newPixels;
 }
 
 void PixelDisplay::render() {

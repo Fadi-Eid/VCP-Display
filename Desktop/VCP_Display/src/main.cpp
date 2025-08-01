@@ -4,7 +4,7 @@
 
 int main() {
     const int width{100}, height{100};
-    std::vector<uint16_t> pixels(width * height, 0xFF00); // RGB565 default: black
+    std::vector<uint16_t> pixels(width * height, 0x00); // RGB565 default: black
 
     PixelDisplay display(width, height);
     Parser serial("/dev/ttyACM0", 7400000);
