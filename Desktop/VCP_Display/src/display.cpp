@@ -34,13 +34,35 @@ void PixelDisplay::refresh() {
 }
 
 /* This should populate the pixels vector based on the received UART data */
-void PixelDisplay::updatePixels(const std::vector<uint16_t>& newPixels) {
+void PixelDisplay::updatePixels(const std::vector<uint16_t>& newPixels, uint16_t x[], uint16_t y[]) {
     this->pixels = newPixels;
+    start_horiz = x[0];
+    end_horiz = x[1];
+    start_vert = y[0];
+    end_vert = y[1];
 }
 
 void PixelDisplay::render() {
-    SDL_Rect *rect = nullptr; // Use this later to update specific part of the screen
-    SDL_UpdateTexture(texture, rect, pixels.data(), width * sizeof(uint16_t));
+    void* texturePixels;
+    int pitch;
+
+    SDL_Rect updateRect = {start_horiz, start_vert, end_horiz - start_horiz + 1, end_vert - start_vert + 1};  // Specify zone to update
+
+    if (SDL_LockTexture(texture, &updateRect, &texturePixels, &pitch) != 0) {
+        std::cerr << "Failed to lock texture: " << SDL_GetError() << std::endl;
+        return;
+    }
+
+    // Copy only the region's pixels from your `pixels` vector to the texture
+    for (int row = 0; row < updateRect.h; ++row) {
+        memcpy(
+            static_cast<uint8_t*>(texturePixels) + row * pitch,
+            &pixels[(start_vert + row) * width + start_horiz],
+            updateRect.w * sizeof(uint16_t)  // assuming RGB565
+        );
+    }
+
+    SDL_UnlockTexture(texture);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, nullptr, nullptr);
     SDL_RenderPresent(renderer);

@@ -10,7 +10,7 @@ public:
     ~PixelDisplay();
     void refresh();
     static void delay(uint32_t ms);
-    void updatePixels(const std::vector<uint16_t>& pixels);
+    void updatePixels(const std::vector<uint16_t>& pixels, uint16_t x[], uint16_t y[]);
 protected:
     void render();
     void handleEvents();
@@ -21,6 +21,11 @@ private:
 
     std::vector<uint16_t> pixels;
     int width, height;
+
+    uint16_t start_horiz{0};
+    uint16_t end_horiz{0};
+    uint16_t start_vert{0};
+    uint16_t end_vert{0};
 
 public:
     bool running;
