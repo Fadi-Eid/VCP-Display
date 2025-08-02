@@ -31,7 +31,7 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 #define DISPLAY_WIDTH 70
-#define DISPLAY_HEIGHT 30
+#define DISPLAY_HEIGHT 70
 #define FPS 50
 
 /* USER CODE END PTD */
@@ -66,6 +66,7 @@ static void MPU_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+
 /* USER CODE END 0 */
 
 /**
@@ -76,6 +77,8 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
+  lv_init();
+  lv_tick_set_cb(HAL_GetTick); // get elapsed milliseconds since application start
 
   /* USER CODE END 1 */
 /* USER CODE BEGIN Boot_Mode_Sequence_0 */

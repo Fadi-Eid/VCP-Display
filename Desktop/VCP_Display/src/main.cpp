@@ -4,7 +4,7 @@
 
 int main() {
     /* Display Properties */
-    const int width{150}, height{150};
+    const int width{250}, height{250};
 
     /* Pixels buffer (RGB565) TODO: Make configurable */
     std::vector<uint16_t> pixels(width * height, 0x00); // RGB565 default: black

@@ -63,7 +63,7 @@ C_SOURCES =  \
 ../../CM7/Src/dma.c \
 
 ## Add LVGL
-LVGL_SRC_PATH = ../../Drivers/LVGL/src
+LVGL_SRC_PATH = ../../Drivers/LVGL/lvgl/src
 C_SOURCES += $(shell find $(LVGL_SRC_PATH) -name "*.c")
 
 # ASM sources
@@ -134,23 +134,24 @@ C_INCLUDES =  \
 
 # Includes for LVGL
 C_INCLUDES += \
--I../../Drivers/LVGL \
--I../../Drivers/LVGL/src \
--I../../Drivers/LVGL/src/core \
--I../../Drivers/LVGL/src/display \
--I../../Drivers/LVGL/src/draw \
--I../../Drivers/LVGL/src/drivers \
--I../../Drivers/LVGL/src/font \
--I../../Drivers/LVGL/src/indev \
--I../../Drivers/LVGL/src/layouts \
--I../../Drivers/LVGL/src/libs \
--I../../Drivers/LVGL/src/misc \
--I../../Drivers/LVGL/src/osal \
--I../../Drivers/LVGL/src/others \
--I../../Drivers/LVGL/src/stdlib \
--I../../Drivers/LVGL/src/themes \
--I../../Drivers/LVGL/src/tick \
--I../../Drivers/LVGL/src/widgets
+-I../../Drivers/LVGL/ \
+-I../../Drivers/LVGL/lvgl \
+-I../../Drivers/LVGL/lvgl/src \
+-I../../Drivers/LVGL/lvgl/src/core \
+-I../../Drivers/LVGL/lvgl/src/display \
+-I../../Drivers/LVGL/lvgl/src/draw \
+-I../../Drivers/LVGL/lvgl/src/drivers \
+-I../../Drivers/LVGL/lvgl/src/font \
+-I../../Drivers/LVGL/lvgl/src/indev \
+-I../../Drivers/LVGL/lvgl/src/layouts \
+-I../../Drivers/LVGL/lvgl/src/libs \
+-I../../Drivers/LVGL/lvgl/src/misc \
+-I../../Drivers/LVGL/lvgl/src/osal \
+-I../../Drivers/LVGL/lvgl/src/others \
+-I../../Drivers/LVGL/lvgl/src/stdlib \
+-I../../Drivers/LVGL/lvgl/src/themes \
+-I../../Drivers/LVGL/lvgl/src/tick \
+-I../../Drivers/LVGL/lvgl/src/widgets
 
 
 

@@ -46,7 +46,8 @@ void PixelDisplay::render() {
     void* texturePixels;
     int pitch;
 
-    SDL_Rect updateRect = {start_horiz, start_vert, end_horiz - start_horiz + 1, end_vert - start_vert + 1};  // Specify zone to update
+    // Specify zone to update
+    SDL_Rect updateRect = {start_horiz, start_vert, end_horiz - start_horiz + 1, end_vert - start_vert + 1}; 
 
     if (SDL_LockTexture(texture, &updateRect, &texturePixels, &pitch) != 0) {
         std::cerr << "Failed to lock texture: " << SDL_GetError() << std::endl;
@@ -58,7 +59,7 @@ void PixelDisplay::render() {
         memcpy(
             static_cast<uint8_t*>(texturePixels) + row * pitch,
             &pixels[(start_vert + row) * width + start_horiz],
-            updateRect.w * sizeof(uint16_t)  // assuming RGB565
+            updateRect.w * sizeof(uint16_t)  // RGB565
         );
     }
 
