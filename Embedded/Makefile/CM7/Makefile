@@ -60,7 +60,11 @@ C_SOURCES =  \
 ../../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c \
 ../../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti.c \
 ../../Common/Src/system_stm32h7xx_dualcore_boot_cm4_cm7.c \
-../../CM7/Src/dma.c
+../../CM7/Src/dma.c \
+
+## Add LVGL
+LVGL_SRC_PATH = ../../Drivers/LVGL/src
+C_SOURCES += $(shell find $(LVGL_SRC_PATH) -name "*.c")
 
 # ASM sources
 ASM_SOURCES =  \
@@ -127,6 +131,27 @@ C_INCLUDES =  \
 -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy \
 -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include \
 -I../../Drivers/CMSIS/Include
+
+# Includes for LVGL
+C_INCLUDES += \
+-I../../Drivers/LVGL \
+-I../../Drivers/LVGL/src \
+-I../../Drivers/LVGL/src/core \
+-I../../Drivers/LVGL/src/display \
+-I../../Drivers/LVGL/src/draw \
+-I../../Drivers/LVGL/src/drivers \
+-I../../Drivers/LVGL/src/font \
+-I../../Drivers/LVGL/src/indev \
+-I../../Drivers/LVGL/src/layouts \
+-I../../Drivers/LVGL/src/libs \
+-I../../Drivers/LVGL/src/misc \
+-I../../Drivers/LVGL/src/osal \
+-I../../Drivers/LVGL/src/others \
+-I../../Drivers/LVGL/src/stdlib \
+-I../../Drivers/LVGL/src/themes \
+-I../../Drivers/LVGL/src/tick \
+-I../../Drivers/LVGL/src/widgets
+
 
 
 # compile gcc flags
