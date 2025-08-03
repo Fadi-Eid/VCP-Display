@@ -24,14 +24,15 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "lvgl.h"
 
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-#define DISPLAY_WIDTH 70
-#define DISPLAY_HEIGHT 70
+#define DMA_BUFFER __attribute__((section(".dma_buffer"))) __attribute__((aligned(32)))
+
+#define DISPLAY_WIDTH 5
+#define DISPLAY_HEIGHT 5
 #define FPS 50
 
 /* USER CODE END PTD */
@@ -66,7 +67,7 @@ static void MPU_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-
+DMA_BUFFER uint8_t data[1000];
 /* USER CODE END 0 */
 
 /**
@@ -77,8 +78,6 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-  lv_init();
-  lv_tick_set_cb(HAL_GetTick); // get elapsed milliseconds since application start
 
   /* USER CODE END 1 */
 /* USER CODE BEGIN Boot_Mode_Sequence_0 */
@@ -140,9 +139,6 @@ Error_Handler();
   MX_DMA_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-  uint16_t pixels[(DISPLAY_WIDTH * DISPLAY_HEIGHT)];
-  uint16_t frame = 0;
-  uint8_t count = 0;
 
   /* USER CODE END 2 */
 
@@ -150,42 +146,13 @@ Error_Handler();
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    uint16_t x[2] = {0, DISPLAY_WIDTH-1};
-    uint16_t y[2] = {0, DISPLAY_HEIGHT-1};
+    for(int i=0; i<16; i++)
+      data[i] = i;
 
-    // Column address span
-    send_command(&huart3, 0x2A);      
-    send_data(&huart3, x, 2);
-
-    // Page address span
-    send_command(&huart3, 0x2B);
-    send_data(&huart3, y, 2);
-
-    // Construct pixel data
-    uint8_t colorArr[] = {0, 0, 0};
-    colorArr[count] = 0xFF;
-
-    uint16_t size = (x[1] - x[0] + 1) * (y[1] - y[0] + 1);
-
-
-    for (size_t i = 0; i < size; i++) {
-        uint8_t r = colorArr[0] & 0x1F;        // 5 bits
-        uint8_t g = colorArr[1] & 0x3F;        // 6 bits
-        uint8_t b = colorArr[2] & 0x1F;        // 5 bits
-        pixels[i] = (r << 11) | (g << 5) | b;
-    }
-
-    send_command(&huart3, 0x2C);
-
-    send_data(&huart3, pixels, size);
-
-    if(++frame == 1) {
-        frame = 0;
-        if (++count == 3)
-            count = 0;
-    }
-
-    HAL_Delay(1000/FPS);
+    SCB_CleanDCache_by_Addr((uint32_t*)data, 16);
+    HAL_UART_Transmit_DMA(&huart3, data, 16);
+    HAL_Delay(100);
+    
 
     /* USER CODE END WHILE */
 

@@ -3,6 +3,13 @@
 #include <iostream>
 
 int main() {
+    /* Construct Communication*/
+    Parser serial("/dev/ttyACM0", 7400000);
+
+    while(1) {
+        std::cout << "Received: " << serial.byteToHex(serial.readByte()) << std::endl; 
+    }
+
     /* Display Properties */
     const int width{250}, height{250};
 
@@ -12,8 +19,6 @@ int main() {
     /* Construct Display */
     PixelDisplay display(width, height);
 
-    /* Construct Communication*/
-    Parser serial("/dev/ttyACM0", 7400000);
 
     /* Page and Column Addresses */
     uint16_t x[2] = {0};

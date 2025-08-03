@@ -113,7 +113,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     hdma_usart3_tx.Init.Request = DMA_REQUEST_USART3_TX;
     hdma_usart3_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
     hdma_usart3_tx.Init.PeriphInc = DMA_PINC_DISABLE;
-    hdma_usart3_tx.Init.MemInc = DMA_MINC_DISABLE;
+    hdma_usart3_tx.Init.MemInc = DMA_MINC_ENABLE;
     hdma_usart3_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
     hdma_usart3_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
     hdma_usart3_tx.Init.Mode = DMA_NORMAL;
@@ -164,42 +164,5 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 }
 
 /* USER CODE BEGIN 1 */
-
-int uart_dma_transmit(UART_HandleTypeDef* huart, const uint8_t *pData, uint16_t Size) {
-  while (huart->gState != HAL_UART_STATE_READY); // wait for the previous transfer to complete
-
-  uint32_t addr = (uint32_t)pData & ~0x1F; // round to nearest multiple of 32
-  uint32_t len  = (((uint32_t)pData + Size + 31) & ~0x1F) - addr;
-  SCB_CleanDCache_by_Addr((uint32_t*)addr, len); // move data in D-Cache to SRAM2
-
-  HAL_UART_Transmit_DMA(huart, pData, Size);
-
-  return 0;
-}
-
-int send_command(UART_HandleTypeDef* huart, uint8_t cmd) {
-  __attribute__((section(".dma_buffer"))) static uint8_t data[1];
-
-  if ( (cmd == 0x2A) || (cmd == 0x2B) || (cmd == 0x2C) ) {
-    data[0] = cmd;
-    uart_dma_transmit(huart, data, 1);
-    return 0;
-  }
-  return -1; // invalid command
-}
-
-int send_data(UART_HandleTypeDef* huart, const uint16_t* data, uint16_t size) {
-  __attribute__((section(".dma_buffer"))) static uint8_t low_byte[1];
-  __attribute__((section(".dma_buffer"))) static uint8_t high_byte[1];
-  for(size_t i=0; i<size; i++) {
-    low_byte[0] = data[i] & 0xFF;
-    high_byte[0] = (data[i] >> 8) & 0xFF;
-
-    uart_dma_transmit(huart, high_byte, 1);
-    uart_dma_transmit(huart, low_byte, 1);
-  }
-
-  return 0;
-}
 
 /* USER CODE END 1 */

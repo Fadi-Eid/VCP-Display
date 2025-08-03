@@ -45,7 +45,7 @@ MEMORY
 FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = 1024K
 RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 128K
 ITCMRAM (xrw)      : ORIGIN = 0x00000000, LENGTH = 64K
-SRAM2 (xrw)      : ORIGIN = 0x30020000, LENGTH = 128K
+AXI_SRAM (xrw)      : ORIGIN = 0x24000000, LENGTH = 512K
 }
 
 /* Define output sections */
@@ -171,10 +171,10 @@ SECTIONS
   } >RAM
 
   /* DMA section */
-  .dma_buffer :
+  .bss.dma (NOLOAD) :
   {
     *(.dma_buffer)
-  } >SRAM2
+  } >AXI_SRAM
 
 
   /* Remove information from the standard libraries */
